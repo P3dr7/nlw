@@ -1,4 +1,15 @@
 import {summaryExample} from "./utils/summary.js"
+import { pipeline } from "@xenova/transformers"
 export async function summarize(text){
-  return summaryExample
+  try{
+    //return summaryExample
+    console.log("Realizando o resumo...")
+    const generator = await pipeline("summarization", "Xenova/distilbart-cnn-12-6")
+    const output = await generator(text)
+    console.log("resumo conluido com sucesso!")
+    return output[0].summary_text
+  }catch(error){
+    console.log("Nao foi possivel realizar o resumo", error)
+    throw new Error(error)
+  }
 }
